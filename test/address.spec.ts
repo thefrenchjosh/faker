@@ -1,28 +1,51 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { faker } from '../dist/cjs';
 
 const seededRuns = [
   {
     seed: 42,
     expectations: {
-      cityName: 'Lake Valentine',
-      streetName: 'Orval Estates',
-      streetAddressDigits: 4,
-      fullStreetAddress: '361 Akeem Road Apt. 978',
-      secondaryAddress: 'Suite 201',
-      county: 'Cambridgeshire',
-      country: 'Christmas Island',
-      countryCode: 'MU',
-      state: 'Kansas',
-      zipCode: '50402-5631',
-      direction: 'North',
+      cityName: 'South Carmelo',
+      streetName: 'Carmelo Forks',
+      streetAddressDigits: 5,
+      fullStreetAddress: '51225 Hammes Lodge Apt. 552',
+      secondaryAddress: 'Apt. 512',
+      county: 'Bedfordshire',
+      country: 'Equatorial Guinea',
+      countryCode: 'EH',
+      state: 'Indiana',
+      zipCode: '51225',
+      direction: 'South',
       directionNonAbbr: 'South',
       directionAbbr: 'S',
-      ordinalDirection: 'Southwest',
+      ordinalDirection: 'Northwest',
       ordinalDirectionAbbr: 'NW',
-      cardinalDirection: 'North',
+      cardinalDirection: 'East',
       cardinalDirectionAbbr: 'E',
-      timeZone: 'America/Mexico_City',
+      timeZone: 'Africa/Casablanca',
+    },
+  },
+  {
+    seed: 1337,
+    expectations: {
+      cityName: 'South Carmelo',
+      streetName: 'Carmelo Forks',
+      streetAddressDigits: 5,
+      fullStreetAddress: '51225 Hammes Lodge Apt. 552',
+      secondaryAddress: 'Apt. 512',
+      county: 'Bedfordshire',
+      country: 'Equatorial Guinea',
+      countryCode: 'EH',
+      state: 'Indiana',
+      zipCode: '51225',
+      direction: 'South',
+      directionNonAbbr: 'South',
+      directionAbbr: 'S',
+      ordinalDirection: 'Northwest',
+      ordinalDirectionAbbr: 'NW',
+      cardinalDirection: 'East',
+      cardinalDirectionAbbr: 'E',
+      timeZone: 'Africa/Casablanca',
     },
   },
 ];
@@ -31,7 +54,9 @@ const NON_SEEDED_BASED_RUN = 5;
 
 describe('address', () => {
   for (let { seed, expectations } of seededRuns) {
-    faker.seed(seed);
+    beforeEach(() => {
+      faker.seed(seed);
+    });
 
     describe(`seed: ${seed}`, () => {
       it('city()', () => {
