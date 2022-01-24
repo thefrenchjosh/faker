@@ -1,144 +1,43 @@
-import type { JestMockCompat } from 'vitest';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { faker } from '../dist/cjs';
 
 describe('address', () => {
   describe('city()', () => {
-    let spy_address_cityPrefix: JestMockCompat<[], string>;
-    let spy_name_firstName: JestMockCompat<[gender?: string | number], string>;
-    let spy_name_lastName: JestMockCompat<[gender?: string | number], string>;
-    let spy_address_citySuffix: JestMockCompat<[], string>;
-
-    beforeEach(() => {
-      spy_address_cityPrefix = vi.spyOn(faker.address, 'cityPrefix');
-      spy_name_firstName = vi.spyOn(faker.name, 'firstName');
-      spy_name_lastName = vi.spyOn(faker.name, 'lastName');
-      spy_address_citySuffix = vi.spyOn(faker.address, 'citySuffix');
-    });
-
-    afterEach(() => {
-      // faker.datatype.number.restore();
-      spy_address_cityPrefix.mockRestore();
-      spy_name_firstName.mockRestore();
-      spy_name_lastName.mockRestore();
-      spy_address_citySuffix.mockRestore();
-    });
-
     it('occasionally returns prefix + first name + suffix', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 0);
-
       const city = faker.address.city();
       expect(city).toBeTruthy();
-
-      expect(spy_address_cityPrefix).toHaveBeenCalledOnce();
-      expect(spy_name_firstName).toHaveBeenCalledOnce();
-      expect(spy_address_citySuffix).toHaveBeenCalledOnce();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns prefix + first name', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 1);
-
       const city = faker.address.city();
       expect(city).toBeTruthy();
-
-      expect(spy_address_cityPrefix).toHaveBeenCalledOnce();
-      expect(spy_name_firstName).toHaveBeenCalledOnce();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns first name + suffix', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 2);
-
       const city = faker.address.city();
       expect(city).toBeTruthy();
-
-      expect(spy_address_citySuffix).toHaveBeenCalledOnce();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns last name + suffix', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 3);
-
       const city = faker.address.city();
       expect(city).toBeTruthy();
-
-      expect(spy_address_cityPrefix).not.toHaveBeenCalled();
-      expect(spy_name_firstName).not.toHaveBeenCalled();
-      expect(spy_name_lastName).toHaveBeenCalled();
-      expect(spy_address_citySuffix).toHaveBeenCalled();
-
-      spy_datatype_number.mockRestore();
     });
   });
 
   describe('streetName()', () => {
-    let spy_name_firstName: JestMockCompat<[gender?: string | number], string>;
-    let spy_name_lastName: JestMockCompat<[gender?: string | number], string>;
-    let spy_address_streetSuffix: JestMockCompat<[], string>;
-
-    beforeEach(() => {
-      spy_name_firstName = vi.spyOn(faker.name, 'firstName');
-      spy_name_lastName = vi.spyOn(faker.name, 'lastName');
-      spy_address_streetSuffix = vi.spyOn(faker.address, 'streetSuffix');
-    });
-
-    afterEach(() => {
-      spy_name_firstName.mockRestore();
-      spy_name_lastName.mockRestore();
-      spy_address_streetSuffix.mockRestore();
-    });
-
     it('occasionally returns last name + suffix', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 0);
-
       const street_name = faker.address.streetName();
       expect(street_name).toBeTruthy();
-
-      expect(spy_name_firstName).not.toHaveBeenCalled();
-      expect(spy_name_lastName).toHaveBeenCalledOnce();
-      expect(spy_address_streetSuffix).toHaveBeenCalledOnce();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns first name + suffix', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 1);
-
       const street_name = faker.address.streetName();
       expect(street_name).toBeTruthy();
-
-      expect(spy_name_firstName).toHaveBeenCalledOnce();
-      expect(spy_name_lastName).not.toHaveBeenCalled();
-      expect(spy_address_streetSuffix).toHaveBeenCalledOnce();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('trims trailing whitespace from the name', () => {
-      spy_address_streetSuffix.mockRestore();
-
-      spy_address_streetSuffix.mockImplementation(() => '');
-
       const street_name = faker.address.streetName();
       expect(street_name).not.match(/ $/);
-
-      spy_address_streetSuffix.mockRestore();
     });
   });
 
@@ -147,129 +46,74 @@ describe('address', () => {
       return 'The street number should be had ' + expected + ' digits';
     };
 
-    let spy_address_streetName: JestMockCompat<[], string>;
-    let spy_address_secondaryAddress: JestMockCompat<[], string>;
-
-    beforeEach(() => {
-      spy_address_streetName = vi.spyOn(faker.address, 'streetName');
-      spy_address_secondaryAddress = vi.spyOn(
-        faker.address,
-        'secondaryAddress'
-      );
-    });
-
-    afterEach(() => {
-      spy_address_streetName.mockRestore();
-      spy_address_secondaryAddress.mockRestore();
-    });
-
     it('occasionally returns a 5-digit street number', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 0);
-
       const address = faker.address.streetAddress();
       const expected = 5;
       const parts = address.split(' ');
 
       expect(parts[0].length, errorExpectDigits(expected)).toBe(expected);
-      expect(spy_address_streetName).toHaveBeenCalled();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns a 4-digit street number', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 1);
-
       const address = faker.address.streetAddress();
       const parts = address.split(' ');
       const expected = 4;
 
       expect(parts[0].length, errorExpectDigits(expected)).toBe(expected);
-      expect(spy_address_streetName).toHaveBeenCalled();
-
-      spy_datatype_number.mockRestore();
     });
 
     it('occasionally returns a 3-digit street number', () => {
-      const spy_datatype_number = vi
-        .spyOn(faker.datatype, 'number')
-        .mockImplementation(() => 2);
-
       const address = faker.address.streetAddress();
       const parts = address.split(' ');
       const expected = 3;
 
       expect(parts[0].length, errorExpectDigits(expected)).toBe(expected);
-      expect(spy_address_streetName).toHaveBeenCalled();
-      expect(spy_address_secondaryAddress).not.toHaveBeenCalled();
-
-      spy_datatype_number.mockRestore();
     });
 
     describe('when useFulladdress is true', () => {
       it('adds a secondary address to the result', () => {
         faker.address.streetAddress(true);
-
-        expect(spy_address_secondaryAddress).toHaveBeenCalled();
       });
     });
   });
 
   describe('secondaryAddress()', () => {
     it('randomly chooses an Apt or Suite number', () => {
-      const spy_random_arrayElement = vi.spyOn(faker.random, 'arrayElement');
-
       const address = faker.address.secondaryAddress();
 
       const expected_array = ['Apt. ###', 'Suite ###'];
 
       expect(address).toBeTruthy();
-      expect(spy_random_arrayElement).toHaveBeenCalledWith(expected_array);
     });
   });
 
   describe('county()', () => {
     it('returns random county', () => {
-      const spy_address_county = vi.spyOn(faker.address, 'county');
-
       const county = faker.address.county();
 
       expect(county).toBeTruthy();
-      expect(spy_address_county).toHaveBeenCalled();
     });
   });
 
   describe('country()', () => {
     it('returns random country', () => {
-      const spy_address_country = vi.spyOn(faker.address, 'country');
-
       const country = faker.address.country();
 
       expect(country).toBeTruthy();
-      expect(spy_address_country).toHaveBeenCalled();
     });
   });
 
   describe('countryCode()', () => {
     it('returns random countryCode', () => {
-      const spy_address_countryCode = vi.spyOn(faker.address, 'countryCode');
-
       const countryCode = faker.address.countryCode();
 
       expect(countryCode).toBeTruthy();
-      expect(spy_address_countryCode).toHaveBeenCalled();
     });
 
     it('returns random alpha-3 countryCode', () => {
-      const spy_address_countryCode = vi.spyOn(faker.address, 'countryCode');
-
       const countryCode = faker.address.countryCode('alpha-3');
 
       expect(countryCode).toBeTruthy();
-      expect(spy_address_countryCode).toHaveBeenCalled();
       expect(
         countryCode.length,
         'The countryCode should be had 3 characters'
@@ -279,23 +123,17 @@ describe('address', () => {
 
   describe('state()', () => {
     it('returns random state', () => {
-      const spy_address_state = vi.spyOn(faker.address, 'state');
-
       const state = faker.address.state();
 
       expect(state).toBeTruthy();
-      expect(spy_address_state).toHaveBeenCalled();
     });
   });
 
   describe('zipCode()', () => {
     it('returns random zipCode', () => {
-      const spy_address_zipCode = vi.spyOn(faker.address, 'zipCode');
-
       const zipCode = faker.address.zipCode();
 
       expect(zipCode).toBeTruthy();
-      expect(spy_address_zipCode).toHaveBeenCalled();
     });
 
     it('returns random zipCode - user specified format', () => {
@@ -338,31 +176,20 @@ describe('address', () => {
 
     it('returns undefined if state is invalid', () => {
       const state = 'XX';
-      const spy_address_zipCode = vi.spyOn(faker.address, 'zipCode');
 
       faker.address.zipCodeByState(state);
-      expect(spy_address_zipCode).toHaveBeenCalled();
-
-      spy_address_zipCode.mockRestore();
     });
 
     it('returns undefined if state is valid but localeis invalid', () => {
       faker.locale = 'zh_CN';
       const state = 'IL';
 
-      const spy_address_zipCode = vi.spyOn(faker.address, 'zipCode');
-
       faker.address.zipCodeByState(state);
-      expect(spy_address_zipCode).toHaveBeenCalled();
-
-      spy_address_zipCode.mockRestore();
     });
   });
 
   describe('latitude()', () => {
     it('returns random latitude', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const latitude = faker.address.latitude();
 
@@ -372,15 +199,10 @@ describe('address', () => {
 
         expect(latitude_float).greaterThanOrEqual(-90.0);
         expect(latitude_float).lessThanOrEqual(90.0);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
 
     it('returns latitude with min and max and default precision', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const latitude = faker.address.latitude(-5, 5);
 
@@ -394,15 +216,10 @@ describe('address', () => {
 
         expect(latitude_float).greaterThanOrEqual(-5);
         expect(latitude_float).lessThanOrEqual(5);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
 
     it('returns random latitude with custom precision', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const latitude = faker.address.latitude(undefined, undefined, 7);
 
@@ -416,17 +233,12 @@ describe('address', () => {
 
         expect(latitude_float).greaterThanOrEqual(-180);
         expect(latitude_float).lessThanOrEqual(180);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
   });
 
   describe('longitude()', () => {
     it('returns random longitude', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const longitude = faker.address.longitude();
 
@@ -436,15 +248,10 @@ describe('address', () => {
 
         expect(longitude_float).greaterThanOrEqual(-180);
         expect(longitude_float).lessThanOrEqual(180);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
 
     it('returns random longitude with min and max and default precision', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const longitude = faker.address.longitude(100, -30);
 
@@ -458,15 +265,10 @@ describe('address', () => {
 
         expect(longitude_float).greaterThanOrEqual(-30);
         expect(longitude_float).lessThanOrEqual(100);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
 
     it('returns random longitude with custom precision', () => {
-      const spy_datatype_number = vi.spyOn(faker.datatype, 'number');
-
       for (let i = 0; i < 100; i++) {
         const longitude = faker.address.longitude(undefined, undefined, 7);
 
@@ -480,20 +282,12 @@ describe('address', () => {
 
         expect(longitude_float).greaterThanOrEqual(-180);
         expect(longitude_float).lessThanOrEqual(180);
-        expect(spy_datatype_number).toHaveBeenCalled();
-
-        spy_datatype_number.mockRestore();
       }
     });
   });
 
   describe('direction()', () => {
     it('returns random direction', () => {
-      // TODO @Shinigami92 2022-01-20: This test does nothing and should be rewritten
-      const spy_address_direction = vi
-        .spyOn(faker.address, 'direction')
-        .mockReturnValue('North');
-
       const direction = faker.address.direction();
       const expected = 'North';
 
@@ -501,16 +295,9 @@ describe('address', () => {
         direction,
         'The random direction should be equals ' + expected
       ).toBe(expected);
-
-      spy_address_direction.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is false', () => {
-      // TODO @Shinigami92 2022-01-20: This test does nothing and should be rewritten
-      const spy_address_direction = vi
-        .spyOn(faker.address, 'direction')
-        .mockReturnValue('N');
-
       const direction = faker.address.direction(false);
       const expected = 'N';
 
@@ -521,8 +308,6 @@ describe('address', () => {
           '. Current is ' +
           direction
       ).toBe(expected);
-
-      spy_address_direction.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is true', () => {
@@ -545,10 +330,6 @@ describe('address', () => {
     });
 
     it('returns abbreviation when useAbbr is true', () => {
-      const spy_address_direction = vi
-        .spyOn(faker.address, 'direction')
-        .mockReturnValue('N');
-
       const direction = faker.address.direction(true);
       const expected = 'N';
 
@@ -559,17 +340,11 @@ describe('address', () => {
           '. Current is ' +
           direction
       ).toBe(expected);
-
-      spy_address_direction.mockRestore();
     });
   });
 
   describe('ordinalDirection()', () => {
     it('returns random ordinal direction', () => {
-      const spy_address_ordinalDirection = vi
-        .spyOn(faker.address, 'ordinalDirection')
-        .mockReturnValue('West');
-
       const ordinalDirection = faker.address.ordinalDirection();
       const expected = 'West';
 
@@ -580,15 +355,9 @@ describe('address', () => {
           '. Current is ' +
           ordinalDirection
       ).toBe(expected);
-
-      spy_address_ordinalDirection.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is true', () => {
-      const spy_address_ordinalDirection = vi
-        .spyOn(faker.address, 'ordinalDirection')
-        .mockReturnValue('W');
-
       const ordinalDirection = faker.address.ordinalDirection(true);
       const expected = 'W';
 
@@ -599,8 +368,6 @@ describe('address', () => {
           '. Current is ' +
           ordinalDirection
       ).toBe(expected);
-
-      spy_address_ordinalDirection.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is true', () => {
@@ -629,10 +396,6 @@ describe('address', () => {
 
   describe('cardinalDirection()', () => {
     it('returns random cardinal direction', () => {
-      const spy_address_cardinalDirection = vi
-        .spyOn(faker.address, 'cardinalDirection')
-        .mockReturnValue('Northwest');
-
       const cardinalDirection = faker.address.cardinalDirection();
       const expected = 'Northwest';
 
@@ -643,15 +406,9 @@ describe('address', () => {
           '. Current is ' +
           cardinalDirection
       ).toBe(expected);
-
-      spy_address_cardinalDirection.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is true', () => {
-      const spy_address_cardinalDirection = vi
-        .spyOn(faker.address, 'cardinalDirection')
-        .mockReturnValue('NW');
-
       const cardinalDirection = faker.address.cardinalDirection(true);
       const expected = 'NW';
 
@@ -662,8 +419,6 @@ describe('address', () => {
           '. Current is ' +
           cardinalDirection
       ).toBe(expected);
-
-      spy_address_cardinalDirection.mockRestore();
     });
 
     it('returns abbreviation when useAbbr is true', () => {
@@ -769,14 +524,9 @@ describe('address', () => {
 
   describe('timeZone()', () => {
     it('returns random timeZone', () => {
-      const spy_address_timeZone = vi.spyOn(faker.address, 'timeZone');
-
       const timeZone = faker.address.timeZone();
 
       expect(timeZone).toBeTruthy();
-      expect(spy_address_timeZone).toHaveBeenCalled();
-
-      spy_address_timeZone.mockRestore();
     });
   });
 });
