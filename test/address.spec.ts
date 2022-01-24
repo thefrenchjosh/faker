@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { faker } from '../dist/cjs';
 
 const seededRuns = [
@@ -76,6 +76,10 @@ const seededRuns = [
 const NON_SEEDED_BASED_RUN = 5;
 
 describe('address', () => {
+  afterEach(() => {
+    faker.locale = 'en';
+  });
+
   for (let { seed, expectations } of seededRuns) {
     describe(`seed: ${seed}`, () => {
       it('city()', () => {
