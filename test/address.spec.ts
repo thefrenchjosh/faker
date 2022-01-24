@@ -5,16 +5,16 @@ const seededRuns = [
   {
     seed: 42,
     expectations: {
-      cityName: 'South Carmelo',
-      streetName: 'Carmelo Forks',
-      streetAddressDigits: 5,
-      fullStreetAddress: '51225 Hammes Lodge Apt. 552',
-      secondaryAddress: 'Apt. 512',
-      county: 'Bedfordshire',
-      country: 'Equatorial Guinea',
-      countryCode: 'EH',
-      state: 'Indiana',
-      zipCode: '51225',
+      cityName: 'Lake Valentine',
+      streetName: 'Valentine Isle',
+      streetAddressDigits: 4,
+      fullStreetAddress: '7917 Lauryn Spur Apt. 410',
+      secondaryAddress: 'Apt. 791',
+      county: 'Berkshire',
+      country: 'Haiti',
+      countryCode: 'GY',
+      state: 'Maine',
+      zipCode: '79177',
       direction: 'South',
       directionNonAbbr: 'South',
       directionAbbr: 'S',
@@ -22,7 +22,7 @@ const seededRuns = [
       ordinalDirectionAbbr: 'NW',
       cardinalDirection: 'East',
       cardinalDirectionAbbr: 'E',
-      timeZone: 'Africa/Casablanca',
+      timeZone: 'Europe/Amsterdam',
     },
   },
   {
@@ -48,29 +48,54 @@ const seededRuns = [
       timeZone: 'Africa/Casablanca',
     },
   },
+  {
+    seed: 1211,
+    expectations: {
+      cityName: 'La Crosse',
+      streetName: 'Trantow Via',
+      streetAddressDigits: 3,
+      fullStreetAddress: '487 Zieme Flat Apt. 616',
+      secondaryAddress: 'Suite 487',
+      county: 'Cambridgeshire',
+      country: 'Uganda',
+      countryCode: 'UM',
+      state: 'Washington',
+      zipCode: '48721-9061',
+      direction: 'Southwest',
+      directionNonAbbr: 'Southwest',
+      directionAbbr: 'SW',
+      ordinalDirection: 'Southwest',
+      ordinalDirectionAbbr: 'SW',
+      cardinalDirection: 'West',
+      cardinalDirectionAbbr: 'W',
+      timeZone: 'Asia/Magadan',
+    },
+  },
 ];
 
 const NON_SEEDED_BASED_RUN = 5;
 
 describe('address', () => {
   for (let { seed, expectations } of seededRuns) {
-    beforeEach(() => {
-      faker.seed(seed);
-    });
-
     describe(`seed: ${seed}`, () => {
       it('city()', () => {
+        faker.seed(seed);
+
         const city = faker.address.city();
         expect(city).toEqual(expectations.cityName);
       });
 
       it('streetName()', () => {
+        faker.seed(seed);
+
         const street_name = faker.address.streetName();
         expect(street_name).toEqual(expectations.streetName);
       });
 
       describe('streetAddress()', () => {
         it('should return a digit street number', () => {
+          faker.seed(seed);
+
           const address = faker.address.streetAddress();
           const parts = address.split(' ');
 
@@ -82,6 +107,8 @@ describe('address', () => {
 
         describe('when useFulladdress is true', () => {
           it('adds a secondary address to the result', () => {
+            faker.seed(seed);
+
             const address = faker.address.streetAddress(true);
             expect(address).toEqual(expectations.fullStreetAddress);
           });
@@ -90,6 +117,8 @@ describe('address', () => {
 
       describe('secondaryAddress()', () => {
         it('randomly chooses an Apt or Suite number', () => {
+          faker.seed(seed);
+
           const address = faker.address.secondaryAddress();
           expect(address).toEqual(expectations.secondaryAddress);
         });
@@ -97,6 +126,8 @@ describe('address', () => {
 
       describe('county()', () => {
         it('returns random county', () => {
+          faker.seed(seed);
+
           const county = faker.address.county();
           expect(county).toEqual(expectations.county);
         });
@@ -104,6 +135,8 @@ describe('address', () => {
 
       describe('country()', () => {
         it('returns random country', () => {
+          faker.seed(seed);
+
           const country = faker.address.country();
           expect(country).toEqual(expectations.country);
         });
@@ -111,6 +144,8 @@ describe('address', () => {
 
       describe('countryCode()', () => {
         it('returns random countryCode', () => {
+          faker.seed(seed);
+
           const countryCode = faker.address.countryCode();
           expect(countryCode).toEqual(expectations.countryCode);
         });
@@ -118,6 +153,8 @@ describe('address', () => {
 
       describe('state()', () => {
         it('returns random state', () => {
+          faker.seed(seed);
+
           const state = faker.address.state();
           expect(state).toEqual(expectations.state);
         });
@@ -125,6 +162,8 @@ describe('address', () => {
 
       describe('zipCode()', () => {
         it('returns random zipCode', () => {
+          faker.seed(seed);
+
           const zipCode = faker.address.zipCode();
           expect(zipCode).toEqual(expectations.zipCode);
         });
@@ -132,6 +171,8 @@ describe('address', () => {
 
       describe('direction()', () => {
         it('returns random direction', () => {
+          faker.seed(seed);
+
           const direction = faker.address.direction();
           const expected = expectations.direction;
 
@@ -141,8 +182,9 @@ describe('address', () => {
           ).toBe(expected);
         });
 
-        // TODO christopher 2022-01-24: This implementation should be corrected
-        it.skip('should not return abbreviation when useAbbr is false', () => {
+        it('should not return abbreviation when useAbbr is false', () => {
+          faker.seed(seed);
+
           const direction = faker.address.direction(false);
           const expected = expectations.directionNonAbbr;
 
@@ -153,6 +195,8 @@ describe('address', () => {
         });
 
         it('returns abbreviation when useAbbr is true', () => {
+          faker.seed(seed);
+
           const direction = faker.address.direction(true);
           const expected = expectations.directionAbbr;
 
@@ -165,6 +209,8 @@ describe('address', () => {
 
       describe('ordinalDirection()', () => {
         it('returns random ordinal direction', () => {
+          faker.seed(seed);
+
           const ordinalDirection = faker.address.ordinalDirection();
           const expected = expectations.ordinalDirection;
 
@@ -175,6 +221,8 @@ describe('address', () => {
         });
 
         it('returns abbreviation when useAbbr is true', () => {
+          faker.seed(seed);
+
           const ordinalDirection = faker.address.ordinalDirection(true);
           const expected = expectations.ordinalDirectionAbbr;
 
@@ -187,6 +235,8 @@ describe('address', () => {
 
       describe('cardinalDirection()', () => {
         it('returns random cardinal direction', () => {
+          faker.seed(seed);
+
           const cardinalDirection = faker.address.cardinalDirection();
           const expected = expectations.cardinalDirection;
 
@@ -197,6 +247,8 @@ describe('address', () => {
         });
 
         it('returns abbreviation when useAbbr is true', () => {
+          faker.seed(seed);
+
           const cardinalDirection = faker.address.cardinalDirection(true);
           const expected = expectations.cardinalDirectionAbbr;
 
@@ -209,6 +261,8 @@ describe('address', () => {
 
       describe('timeZone()', () => {
         it('returns random timeZone', () => {
+          faker.seed(seed);
+
           const timeZone = faker.address.timeZone();
           expect(timeZone).toEqual(expectations.timeZone);
         });
