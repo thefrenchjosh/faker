@@ -322,23 +322,6 @@ describe('address', () => {
           expect(zipCode3).greaterThanOrEqual(98001);
           expect(zipCode3).lessThanOrEqual(99403);
         });
-
-        // TODO @Shinigami92 2022-01-24: These two tests were invalid and just tested mocks.
-        //
-        // it('returns undefined if state is invalid', () => {
-        //   const state = 'XX';
-        //
-        //   const zipCodeByState = faker.address.zipCodeByState(state);
-        //   expect(zipCodeByState).toBeUndefined();
-        // });
-        //
-        // it('returns undefined if state is valid but locale is invalid', () => {
-        //   faker.locale = 'zh_CN';
-        //   const state = 'IL';
-        //
-        //   const zipCodeByState = faker.address.zipCodeByState(state);
-        //   expect(zipCodeByState).toBeUndefined();
-        // });
       });
 
       describe('latitude()', () => {
