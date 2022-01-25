@@ -536,7 +536,7 @@ describe('address', () => {
       });
 
       describe('nearbyGPSCoordinate()', () => {
-        it('returns random gps coordinate within a distance of another one', () => {
+        it('should return random gps coordinate within a distance of another one', () => {
           function haversine(lat1, lon1, lat2, lon2, isMetric) {
             function degreesToRadians(degrees) {
               return degrees * (Math.PI / 180.0);
@@ -599,16 +599,58 @@ describe('address', () => {
             );
             expect(actualDistance).lessThanOrEqual(radius + error);
           }
+        });
 
-          // test once with undefined radius
+        it('should return near metric coordinates when radius is undefined', () => {
+          const latitude = parseFloat(faker.address.latitude());
+          const longitude = parseFloat(faker.address.longitude());
+          const isMetric = true;
+
           const coordinate = faker.address.nearbyGPSCoordinate(
-            [latFloat1, lonFloat1],
+            [latitude, longitude],
             undefined,
             isMetric
           );
+
           expect(coordinate.length).toBe(2);
           expect(typeof coordinate[0]).toBe('string');
           expect(typeof coordinate[1]).toBe('string');
+
+          const distanceToTarget =
+            Math.pow(coordinate[0] - latitude, 2) +
+            Math.pow(coordinate[1] - longitude, 2);
+
+          console.log([latitude, longitude], coordinate, distanceToTarget);
+
+          expect(distanceToTarget).lessThanOrEqual(
+            100 * 0.002 // 100 km ~= 0.9 degrees, we take 2 degrees
+          );
+        });
+
+        it('should return near non metric coordinates when radius is undefined', () => {
+          const latitude = parseFloat(faker.address.latitude());
+          const longitude = parseFloat(faker.address.longitude());
+          const isMetric = false;
+
+          const coordinate = faker.address.nearbyGPSCoordinate(
+            [latitude, longitude],
+            undefined,
+            isMetric
+          );
+
+          expect(coordinate.length).toBe(2);
+          expect(typeof coordinate[0]).toBe('string');
+          expect(typeof coordinate[1]).toBe('string');
+
+          const distanceToTarget =
+            Math.pow(coordinate[0] - latitude, 2) +
+            Math.pow(coordinate[1] - longitude, 2);
+
+          console.log([latitude, longitude], coordinate, distanceToTarget);
+
+          expect(distanceToTarget).lessThanOrEqual(
+            100 * 0.002 * 1.6093444978925633 // 100 miles to km ~= 0.9 degrees, we take 2 degrees
+          );
         });
       });
     }
