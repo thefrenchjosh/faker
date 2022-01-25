@@ -144,7 +144,7 @@ describe('address', () => {
 
           expect(
             parts[0].length,
-            `The street number should had ${expectations.streetAddressDigits} digits`
+            `The street number should have ${expectations.streetAddressDigits} digits`
           ).toStrictEqual(expectations.streetAddressDigits);
         });
 
@@ -244,7 +244,7 @@ describe('address', () => {
 
           expect(
             direction,
-            'The random direction should be equals ' + expected
+            `The random direction should be equal ${expected}`
           ).toBe(expected);
         });
 
@@ -256,7 +256,7 @@ describe('address', () => {
 
           expect(
             direction,
-            `The abbreviation of direction when useAbbr is false should be equals ${expected}. Current is ${direction}`
+            `The abbreviation of direction when useAbbr is false should be equal ${expected}. Current is ${direction}`
           ).toBe(expected);
         });
 
@@ -268,7 +268,7 @@ describe('address', () => {
 
           expect(
             direction,
-            `The abbreviation of direction when useAbbr is true should be equals ${expected}. Current is ${direction}`
+            `The abbreviation of direction when useAbbr is true should be equal ${expected}. Current is ${direction}`
           ).toBe(expected);
         });
       });
@@ -282,7 +282,7 @@ describe('address', () => {
 
           expect(
             ordinalDirection,
-            `The ransom ordinal direction should be equals ${expected}. Current is ${ordinalDirection}`
+            `The ransom ordinal direction should be equal ${expected}. Current is ${ordinalDirection}`
           ).toBe(expected);
         });
 
@@ -294,7 +294,7 @@ describe('address', () => {
 
           expect(
             ordinalDirection,
-            `The ordinal direction when useAbbr is true should be equals ${expected}. Current is ${ordinalDirection}`
+            `The ordinal direction when useAbbr is true should be equal ${expected}. Current is ${ordinalDirection}`
           ).toBe(expected);
         });
       });
@@ -308,7 +308,7 @@ describe('address', () => {
 
           expect(
             cardinalDirection,
-            `The random cardinal direction should be equals ${expected}. Current is ${cardinalDirection}`
+            `The random cardinal direction should be equal ${expected}. Current is ${cardinalDirection}`
           ).toBe(expected);
         });
 
@@ -320,7 +320,7 @@ describe('address', () => {
 
           expect(
             cardinalDirection,
-            `The cardinal direction when useAbbr is true should be equals ${expected}. Current is ${cardinalDirection}`
+            `The cardinal direction when useAbbr is true should be equal ${expected}. Current is ${cardinalDirection}`
           ).toBe(expected);
         });
       });
@@ -345,7 +345,7 @@ describe('address', () => {
           expect(countryCode).toBeTruthy();
           expect(
             countryCode.length,
-            'The countryCode should be had 3 characters'
+            'The countryCode should be 3 characters long'
           ).toBe(3);
         });
       });
@@ -411,7 +411,7 @@ describe('address', () => {
             expect(typeof latitude).toBe('string');
             expect(
               latitude.split('.')[1].length,
-              'The precision of latitude should be had of 4 digits'
+              'The precision of latitude should be 4 digits'
             ).toBe(4);
 
             const latitude_float = parseFloat(latitude);
@@ -428,7 +428,7 @@ describe('address', () => {
             expect(typeof latitude).toBe('string');
             expect(
               latitude.split('.')[1].length,
-              'The precision of latitude should be had of 7 digits'
+              'The precision of latitude should be 7 digits'
             ).toBe(7);
 
             const latitude_float = parseFloat(latitude);
@@ -460,7 +460,7 @@ describe('address', () => {
             expect(typeof longitude).toBe('string');
             expect(
               longitude.split('.')[1].length,
-              'The precision of longitude should be had of 4 digits'
+              'The precision of longitude should be 4 digits'
             ).toBe(4);
 
             const longitude_float = parseFloat(longitude);
@@ -477,7 +477,7 @@ describe('address', () => {
             expect(typeof longitude).toBe('string');
             expect(
               longitude.split('.')[1].length,
-              'The precision of longitude should be had of 7 digits'
+              'The precision of longitude should be 7 digits'
             ).toBe(7);
 
             const longitude_float = parseFloat(longitude);
@@ -497,12 +497,9 @@ describe('address', () => {
 
           expect(
             typeof direction,
-            `${prefixErrorMessage} be typeof string. Current is ${typeof direction}`
+            `${prefixErrorMessage} be of type string. Current is ${typeof direction}`
           ).toBe('string');
-          expect(
-            lengthDirection <= 2,
-            `${prefixErrorMessage} have a length less or equals 2. Current is ${lengthDirection}`
-          ).toBe(true);
+          expect(lengthDirection).lessThanOrEqual(2);
         });
       });
 
@@ -516,12 +513,9 @@ describe('address', () => {
 
           expect(
             typeof ordinalDirection,
-            `${prefixErrorMessage} be had typeof equals ${expectedType}. Current is ${typeof ordinalDirection}`
+            `${prefixErrorMessage} be equal ${expectedType}. Current is ${typeof ordinalDirection}`
           ).toBe(expectedType);
-          expect(
-            ordinalDirectionLength <= 2,
-            `${prefixErrorMessage} have a length less or equals 2. Current is ${ordinalDirectionLength}`
-          ).toBe(true);
+          expect(ordinalDirectionLength).lessThanOrEqual(2);
         });
       });
 
@@ -535,12 +529,9 @@ describe('address', () => {
 
           expect(
             typeof cardinalDirection,
-            `${prefixErrorMessage} be had typeof equals ${expectedType}. Current is ${typeof cardinalDirection}`
+            `${prefixErrorMessage} be typeof equal to ${expectedType}. Current is ${typeof cardinalDirection}`
           ).toBe(expectedType);
-          expect(
-            cardinalDirectionLength <= 2,
-            `${prefixErrorMessage} have a length less or equals 2. Current is ${cardinalDirectionLength}`
-          ).toBe(true);
+          expect(cardinalDirectionLength).lessThanOrEqual(2);
         });
       });
 
