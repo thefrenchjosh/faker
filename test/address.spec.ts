@@ -244,7 +244,7 @@ describe('address', () => {
 
           expect(
             direction,
-            `The random direction should be equal ${expected}`
+            `The random direction should be equal to ${expected}`
           ).toBe(expected);
         });
 
@@ -532,7 +532,7 @@ describe('address', () => {
 
           expect(
             typeof cardinalDirection,
-            `${prefixErrorMessage} be typeof equal to ${expectedType}. Current is ${typeof cardinalDirection}`
+            `${prefixErrorMessage} be of type ${expectedType}. Current is ${typeof cardinalDirection}`
           ).toBe(expectedType);
           expect(cardinalDirectionLength).lessThanOrEqual(2);
         });
