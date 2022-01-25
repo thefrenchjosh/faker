@@ -5,8 +5,13 @@ const seededRuns = [
   {
     seed: 42,
     expectations: {
-      cityName: 'Lake Valentine',
+      city: 'Lake Valentine',
+      cityPrefix: 'West',
+      citySuffix: 'bury',
+      cityName: 'Gulfport',
       streetName: 'Valentine Isle',
+      streetPrefix: 'b',
+      streetSuffix: 'Isle',
       streetAddressDigits: 4,
       fullStreetAddress: '7917 Lauryn Spur Apt. 410',
       secondaryAddress: 'Apt. 791',
@@ -14,6 +19,7 @@ const seededRuns = [
       country: 'Haiti',
       countryCode: 'GY',
       state: 'Maine',
+      stateAbbr: 'ME',
       zipCode: '79177',
       direction: 'South',
       directionNonAbbr: 'South',
@@ -28,8 +34,13 @@ const seededRuns = [
   {
     seed: 1337,
     expectations: {
-      cityName: 'South Carmelo',
+      city: 'South Carmelo',
+      cityPrefix: 'East',
+      citySuffix: 'berg',
+      cityName: 'Dubuque',
       streetName: 'Carmelo Forks',
+      streetPrefix: 'a',
+      streetSuffix: 'Forks',
       streetAddressDigits: 5,
       fullStreetAddress: '51225 Hammes Lodge Apt. 552',
       secondaryAddress: 'Apt. 512',
@@ -37,6 +48,7 @@ const seededRuns = [
       country: 'Equatorial Guinea',
       countryCode: 'EH',
       state: 'Indiana',
+      stateAbbr: 'IN',
       zipCode: '51225',
       direction: 'South',
       directionNonAbbr: 'South',
@@ -51,8 +63,13 @@ const seededRuns = [
   {
     seed: 1211,
     expectations: {
-      cityName: 'La Crosse',
+      city: 'La Crosse',
+      cityPrefix: 'Port',
+      citySuffix: 'side',
+      cityName: 'Urbana',
       streetName: 'Trantow Via',
+      streetPrefix: 'c',
+      streetSuffix: 'Via',
       streetAddressDigits: 3,
       fullStreetAddress: '487 Zieme Flat Apt. 616',
       secondaryAddress: 'Suite 487',
@@ -60,6 +77,7 @@ const seededRuns = [
       country: 'Uganda',
       countryCode: 'UM',
       state: 'Washington',
+      stateAbbr: 'WA',
       zipCode: '48721-9061',
       direction: 'Southwest',
       directionNonAbbr: 'Southwest',
@@ -86,7 +104,28 @@ describe('address', () => {
         faker.seed(seed);
 
         const city = faker.address.city();
-        expect(city).toEqual(expectations.cityName);
+        expect(city).toEqual(expectations.city);
+      });
+
+      it('cityPrefix()', () => {
+        faker.seed(seed);
+
+        const cityPrefix = faker.address.cityPrefix();
+        expect(cityPrefix).toEqual(expectations.cityPrefix);
+      });
+
+      it('citySuffix()', () => {
+        faker.seed(seed);
+
+        const citySuffix = faker.address.citySuffix();
+        expect(citySuffix).toEqual(expectations.citySuffix);
+      });
+
+      it('cityName()', () => {
+        faker.seed(seed);
+
+        const cityName = faker.address.cityName();
+        expect(cityName).toEqual(expectations.cityName);
       });
 
       it('streetName()', () => {
@@ -117,6 +156,20 @@ describe('address', () => {
             expect(address).toEqual(expectations.fullStreetAddress);
           });
         });
+      });
+
+      it('streetPrefix()', () => {
+        faker.seed(seed);
+
+        const streetPrefix = faker.address.streetPrefix();
+        expect(streetPrefix).toEqual(expectations.streetPrefix);
+      });
+
+      it('streetSuffix()', () => {
+        faker.seed(seed);
+
+        const streetSuffix = faker.address.streetSuffix();
+        expect(streetSuffix).toEqual(expectations.streetSuffix);
       });
 
       describe('secondaryAddress()', () => {
@@ -161,6 +214,15 @@ describe('address', () => {
 
           const state = faker.address.state();
           expect(state).toEqual(expectations.state);
+        });
+      });
+
+      describe('stateAbbr()', () => {
+        it('returns random stateAbbr', () => {
+          faker.seed(seed);
+
+          const stateAbbr = faker.address.stateAbbr();
+          expect(stateAbbr).toEqual(expectations.stateAbbr);
         });
       });
 
