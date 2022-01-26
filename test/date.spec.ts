@@ -5,7 +5,11 @@ const seededRuns = [
   {
     seed: 42,
     expectations: {
-      past: {},
+      past: [
+        new Date('2020-10-08T00:10:58.041Z'),
+        new Date('2020-10-08T00:10:57.330Z'),
+      ],
+
       future: {},
       between: {},
       betweens: {},
@@ -18,7 +22,11 @@ const seededRuns = [
   {
     seed: 1337,
     expectations: {
-      past: {},
+      past: [
+        new Date('2020-11-18T01:49:04.785Z'),
+        new Date('2020-11-18T01:49:04.074Z'),
+      ],
+
       future: {},
       between: {},
       betweens: {},
@@ -31,7 +39,10 @@ const seededRuns = [
   {
     seed: 1211,
     expectations: {
-      past: {},
+      past: [
+        new Date('2020-03-19T19:19:04.071Z'),
+        new Date('2020-03-19T19:19:03.360Z'),
+      ],
       future: {},
       between: {},
       betweens: {},
@@ -51,7 +62,70 @@ describe('date', () => {
   });
 
   for (let { seed, expectations } of seededRuns) {
-    describe(`seed: ${seed}`, () => {});
+    describe(`seed: ${seed}`, () => {
+      describe('past()', () => {
+        it('should return deterministic past value on given refDate of type string', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.past(undefined, '2021-02-21T17:09:15.711Z');
+
+          expect(actual).toEqual(expectations.past[0]);
+        });
+
+        it('should return deterministic past value on given refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.past(
+            undefined,
+            new Date('2021-02-21T17:09:15.711Z')
+          );
+
+          expect(actual).toEqual(expectations.past[1]);
+        });
+      });
+
+      describe('future()', () => {
+        it('should ... future', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('between()', () => {
+        it('should ... between', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('betweens()', () => {
+        it('should ... betweens', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('recent()', () => {
+        it('should ... recent', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('soon()', () => {
+        it('should ... soon', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('month()', () => {
+        it('should ... month', () => {
+          faker.seed(seed);
+        });
+      });
+
+      describe('weekday()', () => {
+        it('should ... weekday', () => {
+          faker.seed(seed);
+        });
+      });
+    });
   }
 
   // Create and log-back the seed for debug purposes
