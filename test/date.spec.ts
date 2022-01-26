@@ -8,6 +8,8 @@ const seededRuns = [
       past: [
         new Date('2020-10-08T00:10:58.041Z'),
         new Date('2020-10-08T00:10:57.330Z'),
+        new Date('2017-05-26T15:26:24.637Z'),
+        new Date('2017-05-26T15:26:23.926Z'),
       ],
 
       future: {},
@@ -25,6 +27,8 @@ const seededRuns = [
       past: [
         new Date('2020-11-18T01:49:04.785Z'),
         new Date('2020-11-18T01:49:04.074Z'),
+        new Date('2018-07-11T07:47:33.089Z'),
+        new Date('2018-07-11T07:47:32.378Z'),
       ],
 
       future: {},
@@ -42,6 +46,8 @@ const seededRuns = [
       past: [
         new Date('2020-03-19T19:19:04.071Z'),
         new Date('2020-03-19T19:19:03.360Z'),
+        new Date('2011-11-12T14:47:19.955Z'),
+        new Date('2011-11-12T14:47:19.244Z'),
       ],
       future: {},
       between: {},
@@ -81,6 +87,25 @@ describe('date', () => {
           );
 
           expect(actual).toEqual(expectations.past[1]);
+        });
+
+        it('should return deterministic past value on given years 10 and refDate of type string', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.past(10, '2021-02-21T17:09:15.711Z');
+
+          expect(actual).toEqual(expectations.past[2]);
+        });
+
+        it('should return deterministic past value on given years 10 and refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.past(
+            10,
+            new Date('2021-02-21T17:09:15.711Z')
+          );
+
+          expect(actual).toEqual(expectations.past[3]);
         });
       });
 
