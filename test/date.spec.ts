@@ -159,24 +159,35 @@ describe('date', () => {
   describe(`random seeded tests for seed ${faker.seedValue}`, () => {
     for (let i = 1; i <= NON_SEEDED_BASED_RUN; i++) {
       describe('past()', () => {
-        it('returns a date N years into the past', () => {
-          const date = faker.date.past(75);
-          expect(date).lessThan(new Date());
+        it('should return a date 5 years in the past', () => {
+          const today = new Date();
+          const yearsAgo = new Date(today);
+          yearsAgo.setFullYear(yearsAgo.getFullYear() - 5);
+
+          const date = faker.date.past(5);
+
+          expect(date).lessThan(today);
+          expect(date).greaterThanOrEqual(yearsAgo);
         });
 
-        it('returns a past date when N = 0', () => {
+        it('should return a past date when years 0', () => {
           const refDate = new Date();
           const date = faker.date.past(0, refDate.toJSON());
 
-          expect(date).lessThan(refDate); // date should be before the date given
+          expect(date).lessThan(refDate);
         });
 
-        it('returns a date N years before the date given', () => {
-          const refDate = new Date(2120, 11, 9, 10, 0, 0, 0); // set the date beyond the usual calculation (to make sure this is working correctly)
+        it('should return a past date relative to given refDate', () => {
+          const refDate = new Date();
+          refDate.setFullYear(refDate.getFullYear() + 5);
 
-          const date = faker.date.past(75, refDate.toJSON());
+          let date = faker.date.past(5, refDate);
 
-          // date should be before date given but after the current time
+          expect(date).lessThan(refDate);
+          expect(date).greaterThan(new Date());
+
+          date = faker.date.past(5, refDate.toISOString());
+
           expect(date).lessThan(refDate);
           expect(date).greaterThan(new Date());
         });
@@ -204,6 +215,40 @@ describe('date', () => {
           // date should be after the date given, but before the current time
           expect(date).greaterThan(refDate);
           expect(date).lessThan(new Date());
+        });
+      });
+
+      describe('between()', () => {
+        it('returns a random date between the dates given', () => {
+          const from = new Date(1990, 5, 7, 9, 11, 0, 0);
+          const to = new Date(2000, 6, 8, 10, 12, 0, 0);
+
+          const date = faker.date.between(
+            //@ts-expect-error
+            from,
+            to
+          );
+
+          expect(date).greaterThan(from);
+          expect(date).lessThan(to);
+        });
+      });
+
+      describe('betweens()', () => {
+        it('returns an array of 3 dates ( by default ) of sorted randoms dates between the dates given', () => {
+          const from = new Date(1990, 5, 7, 9, 11, 0, 0);
+          const to = new Date(2000, 6, 8, 10, 12, 0, 0);
+
+          const dates = faker.date.betweens(
+            // @ts-expect-error
+            from,
+            to
+          );
+
+          expect(dates[0]).greaterThan(from);
+          expect(dates[0]).lessThan(to);
+          expect(dates[1]).greaterThan(dates[0]);
+          expect(dates[2]).greaterThan(dates[1]);
         });
       });
 
@@ -268,40 +313,6 @@ describe('date', () => {
             refDate,
             '`soon()` date should not be behind the starting date reference'
           ).lessThanOrEqual(date);
-        });
-      });
-
-      describe('between()', () => {
-        it('returns a random date between the dates given', () => {
-          const from = new Date(1990, 5, 7, 9, 11, 0, 0);
-          const to = new Date(2000, 6, 8, 10, 12, 0, 0);
-
-          const date = faker.date.between(
-            //@ts-expect-error
-            from,
-            to
-          );
-
-          expect(date).greaterThan(from);
-          expect(date).lessThan(to);
-        });
-      });
-
-      describe('betweens()', () => {
-        it('returns an array of 3 dates ( by default ) of sorted randoms dates between the dates given', () => {
-          const from = new Date(1990, 5, 7, 9, 11, 0, 0);
-          const to = new Date(2000, 6, 8, 10, 12, 0, 0);
-
-          const dates = faker.date.betweens(
-            // @ts-expect-error
-            from,
-            to
-          );
-
-          expect(dates[0]).greaterThan(from);
-          expect(dates[0]).lessThan(to);
-          expect(dates[1]).greaterThan(dates[0]);
-          expect(dates[2]).greaterThan(dates[1]);
         });
       });
 
