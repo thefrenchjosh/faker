@@ -17,7 +17,10 @@ const seededRuns = [
         new Date('2024-11-19T18:52:06.785Z'),
         new Date('2024-11-19T18:52:06.074Z'),
       ],
-      between: {},
+      between: [
+        new Date('2021-03-15T19:30:57.091Z'),
+        new Date('2021-07-29T19:19:12.731Z'),
+      ],
       betweens: {},
       recent: {},
       soon: {},
@@ -40,7 +43,10 @@ const seededRuns = [
         new Date('2023-10-06T02:30:58.333Z'),
         new Date('2023-10-06T02:30:57.622Z'),
       ],
-      between: {},
+      between: [
+        new Date('2021-03-09T04:11:24.667Z'),
+        new Date('2021-06-12T02:21:47.178Z'),
+      ],
       betweens: {},
       recent: {},
       soon: {},
@@ -63,7 +69,10 @@ const seededRuns = [
         new Date('2030-06-03T19:31:11.467Z'),
         new Date('2030-06-03T19:31:10.756Z'),
       ],
-      between: {},
+      between: [
+        new Date('2021-04-17T11:58:13.327Z'),
+        new Date('2022-03-21T16:37:15.905Z'),
+      ],
       betweens: {},
       recent: {},
       soon: {},
@@ -166,8 +175,26 @@ describe('date', () => {
       });
 
       describe('between()', () => {
-        it('should ... between', () => {
+        it('should return deterministic value between given string dates', () => {
           faker.seed(seed);
+
+          const actual = faker.date.between(
+            '2021-02-21T17:09:15.711Z',
+            '2021-04-21T17:11:17.711Z'
+          );
+
+          expect(actual).toEqual(expectations.between[0]);
+        });
+
+        it('should return deterministic value between given real dates', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.between(
+            new Date('2021-02-21'),
+            new Date('2022-04-21')
+          );
+
+          expect(actual).toEqual(expectations.between[1]);
         });
       });
 
