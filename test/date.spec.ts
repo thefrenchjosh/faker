@@ -33,8 +33,14 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: [new Date('2021-02-21T08:11:56.820Z')],
-      soon: {},
+      recent: [
+        new Date('2021-02-21T08:11:56.820Z'),
+        new Date('2021-02-21T08:11:56.109Z'),
+      ],
+      soon: [
+        new Date('2021-03-13T23:15:38.042Z'),
+        new Date('2021-03-13T23:15:37.891Z'),
+      ],
       month: {},
       weekday: {},
     },
@@ -70,8 +76,14 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: [new Date('2021-02-21T10:53:58.041Z')],
-      soon: {},
+      recent: [
+        new Date('2021-02-21T10:53:58.041Z'),
+        new Date('2021-02-21T10:53:57.330Z'),
+      ],
+      soon: [
+        new Date('2021-03-13T20:33:36.821Z'),
+        new Date('2021-03-13T20:33:36.670Z'),
+      ],
       month: {},
       weekday: {},
     },
@@ -107,8 +119,14 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: [new Date('2021-02-20T18:54:13.498Z')],
-      soon: {},
+      recent: [
+        new Date('2021-02-20T18:54:13.498Z'),
+        new Date('2021-02-20T18:54:12.787Z'),
+      ],
+      soon: [
+        new Date('2021-03-14T12:33:21.364Z'),
+        new Date('2021-03-14T12:33:21.213Z'),
+      ],
       month: {},
       weekday: {},
     },
@@ -268,11 +286,37 @@ describe('date', () => {
 
           expect(actual).toEqual(expectations.recent[0]);
         });
+
+        it('should return deterministic value recent to given refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.recent(
+            undefined,
+            new Date('2021-02-21T17:11:17.711Z')
+          );
+
+          expect(actual).toEqual(expectations.recent[1]);
+        });
       });
 
       describe('soon()', () => {
-        it('should ... soon', () => {
+        it('should return deterministic value soon to given refDate of type string', () => {
           faker.seed(seed);
+
+          const actual = faker.date.soon(undefined, '2021-03-13T14:16:17.151Z');
+
+          expect(actual).toEqual(expectations.soon[0]);
+        });
+
+        it('should return deterministic value soon to given refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.soon(
+            undefined,
+            new Date('2021-03-13T14:16:17.151Z')
+          );
+
+          expect(actual).toEqual(expectations.soon[1]);
         });
       });
 
