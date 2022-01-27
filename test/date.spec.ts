@@ -11,8 +11,12 @@ const seededRuns = [
         new Date('2017-05-26T15:26:24.637Z'),
         new Date('2017-05-26T15:26:23.926Z'),
       ],
-
-      future: {},
+      future: [
+        new Date('2021-07-08T10:07:33.381Z'),
+        new Date('2021-07-08T10:07:32.670Z'),
+        new Date('2024-11-19T18:52:06.785Z'),
+        new Date('2024-11-19T18:52:06.074Z'),
+      ],
       between: {},
       betweens: {},
       recent: {},
@@ -30,8 +34,12 @@ const seededRuns = [
         new Date('2018-07-11T07:47:33.089Z'),
         new Date('2018-07-11T07:47:32.378Z'),
       ],
-
-      future: {},
+      future: [
+        new Date('2021-05-28T08:29:26.637Z'),
+        new Date('2021-05-28T08:29:25.926Z'),
+        new Date('2023-10-06T02:30:58.333Z'),
+        new Date('2023-10-06T02:30:57.622Z'),
+      ],
       between: {},
       betweens: {},
       recent: {},
@@ -49,7 +57,12 @@ const seededRuns = [
         new Date('2011-11-12T14:47:19.955Z'),
         new Date('2011-11-12T14:47:19.244Z'),
       ],
-      future: {},
+      future: [
+        new Date('2022-01-26T14:59:27.351Z'),
+        new Date('2022-01-26T14:59:26.640Z'),
+        new Date('2030-06-03T19:31:11.467Z'),
+        new Date('2030-06-03T19:31:10.756Z'),
+      ],
       between: {},
       betweens: {},
       recent: {},
@@ -110,8 +123,45 @@ describe('date', () => {
       });
 
       describe('future()', () => {
-        it('should ... future', () => {
+        it('should return deterministic future value on given refDate of type string', () => {
           faker.seed(seed);
+
+          const actual = faker.date.future(
+            undefined,
+            '2021-02-21T17:09:15.711Z'
+          );
+
+          expect(actual).toEqual(expectations.future[0]);
+        });
+
+        it('should return deterministic future value on given refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.future(
+            undefined,
+            new Date('2021-02-21T17:09:15.711Z')
+          );
+
+          expect(actual).toEqual(expectations.future[1]);
+        });
+
+        it('should return deterministic future value on given years 10 and refDate of type string', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.future(10, '2021-02-21T17:09:15.711Z');
+
+          expect(actual).toEqual(expectations.future[2]);
+        });
+
+        it('should return deterministic future value on given years 10 and refDate of type date', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.future(
+            10,
+            new Date('2021-02-21T17:09:15.711Z')
+          );
+
+          expect(actual).toEqual(expectations.future[3]);
         });
       });
 
@@ -172,7 +222,7 @@ describe('date', () => {
 
         it('should return a past date when years 0', () => {
           const refDate = new Date();
-          const date = faker.date.past(0, refDate.toJSON());
+          const date = faker.date.past(0, refDate.toISOString());
 
           expect(date).lessThan(refDate);
         });
@@ -194,23 +244,23 @@ describe('date', () => {
       });
 
       describe('future()', () => {
-        it('returns a date N years into the future', () => {
+        it('should return a date 75 years into the future', () => {
           const date = faker.date.future(75);
 
           expect(date).greaterThan(new Date());
         });
 
-        it('returns a future date when N = 0', () => {
+        it('should return a future date when years 0', () => {
           const refDate = new Date();
-          const date = faker.date.future(0, refDate.toJSON());
+          const date = faker.date.future(0, refDate.toISOString());
 
           expect(date).greaterThan(refDate); // date should be after the date given
         });
 
-        it('returns a date N years after the date given', () => {
+        it('should return a date 75 years after the date given', () => {
           const refDate = new Date(1880, 11, 9, 10, 0, 0, 0); // set the date beyond the usual calculation (to make sure this is working correctly)
 
-          const date = faker.date.future(75, refDate.toJSON());
+          const date = faker.date.future(75, refDate.toISOString());
 
           // date should be after the date given, but before the current time
           expect(date).greaterThan(refDate);
@@ -219,15 +269,11 @@ describe('date', () => {
       });
 
       describe('between()', () => {
-        it('returns a random date between the dates given', () => {
+        it('should return a random date between the dates given', () => {
           const from = new Date(1990, 5, 7, 9, 11, 0, 0);
           const to = new Date(2000, 6, 8, 10, 12, 0, 0);
 
-          const date = faker.date.between(
-            //@ts-expect-error
-            from,
-            to
-          );
+          const date = faker.date.between(from, to);
 
           expect(date).greaterThan(from);
           expect(date).lessThan(to);
@@ -235,15 +281,11 @@ describe('date', () => {
       });
 
       describe('betweens()', () => {
-        it('returns an array of 3 dates ( by default ) of sorted randoms dates between the dates given', () => {
+        it('should return an array of 3 dates ( by default ) of sorted randoms dates between the dates given', () => {
           const from = new Date(1990, 5, 7, 9, 11, 0, 0);
           const to = new Date(2000, 6, 8, 10, 12, 0, 0);
 
-          const dates = faker.date.betweens(
-            // @ts-expect-error
-            from,
-            to
-          );
+          const dates = faker.date.betweens(from, to);
 
           expect(dates[0]).greaterThan(from);
           expect(dates[0]).lessThan(to);
@@ -253,21 +295,17 @@ describe('date', () => {
       });
 
       describe('recent()', () => {
-        it('returns a date N days from the recent past', () => {
+        it('should return a date N days from the recent past', () => {
           const date = faker.date.recent(30);
 
           expect(date).lessThanOrEqual(new Date());
         });
 
-        it('returns a date N days from the recent past, starting from refDate', () => {
+        it('should return a date N days from the recent past, starting from refDate', () => {
           const days = 30;
           const refDate = new Date(2120, 11, 9, 10, 0, 0, 0); // set the date beyond the usual calculation (to make sure this is working correctly)
 
-          const date = faker.date.recent(
-            days,
-            // @ts-expect-error
-            refDate
-          );
+          const date = faker.date.recent(days, refDate);
 
           const lowerBound = new Date(
             refDate.getTime() - days * 24 * 60 * 60 * 1000
@@ -285,21 +323,17 @@ describe('date', () => {
       });
 
       describe('soon()', () => {
-        it('returns a date N days into the future', () => {
+        it('should return a date N days into the future', () => {
           const date = faker.date.soon(30);
 
           expect(date).greaterThanOrEqual(new Date());
         });
 
-        it('returns a date N days from the recent future, starting from refDate', () => {
+        it('should return a date N days from the recent future, starting from refDate', () => {
           const days = 30;
           const refDate = new Date(1880, 11, 9, 10, 0, 0, 0); // set the date beyond the usual calculation (to make sure this is working correctly)
 
-          const date = faker.date.soon(
-            days,
-            // @ts-expect-error
-            refDate
-          );
+          const date = faker.date.soon(days, refDate);
 
           const upperBound = new Date(
             refDate.getTime() + days * 24 * 60 * 60 * 1000
@@ -317,27 +351,27 @@ describe('date', () => {
       });
 
       describe('month()', () => {
-        it('returns random value from date.month.wide array by default', () => {
+        it('should return random value from date.month.wide array by default', () => {
           const month = faker.date.month();
           expect(faker.definitions.date.month.wide).toContain(month);
         });
 
-        it('returns random value from date.month.wide_context array for context option', () => {
+        it('should return random value from date.month.wide_context array for context option', () => {
           const month = faker.date.month({ context: true });
           expect(faker.definitions.date.month.wide_context).toContain(month);
         });
 
-        it('returns random value from date.month.abbr array for abbr option', () => {
+        it('should return random value from date.month.abbr array for abbr option', () => {
           const month = faker.date.month({ abbr: true });
           expect(faker.definitions.date.month.abbr).toContain(month);
         });
 
-        it('returns random value from date.month.abbr_context array for abbr and context option', () => {
+        it('should return random value from date.month.abbr_context array for abbr and context option', () => {
           const month = faker.date.month({ abbr: true, context: true });
           expect(faker.definitions.date.month.abbr_context).toContain(month);
         });
 
-        it('returns random value from date.month.wide array for context option when date.month.wide_context array is missing', () => {
+        it('should return random value from date.month.wide array for context option when date.month.wide_context array is missing', () => {
           const backup_wide_context = faker.definitions.date.month.wide_context;
           faker.definitions.date.month.wide_context = undefined;
 
@@ -347,7 +381,7 @@ describe('date', () => {
           faker.definitions.date.month.wide_context = backup_wide_context;
         });
 
-        it('returns random value from date.month.abbr array for abbr and context option when date.month.abbr_context array is missing', () => {
+        it('should return random value from date.month.abbr array for abbr and context option when date.month.abbr_context array is missing', () => {
           const backup_abbr_context = faker.definitions.date.month.abbr_context;
           faker.definitions.date.month.abbr_context = undefined;
 
@@ -359,31 +393,31 @@ describe('date', () => {
       });
 
       describe('weekday()', () => {
-        it('returns random value from date.weekday.wide array by default', () => {
+        it('should return random value from date.weekday.wide array by default', () => {
           const weekday = faker.date.weekday();
           expect(faker.definitions.date.weekday.wide).toContain(weekday);
         });
 
-        it('returns random value from date.weekday.wide_context array for context option', () => {
+        it('should return random value from date.weekday.wide_context array for context option', () => {
           const weekday = faker.date.weekday({ context: true });
           expect(faker.definitions.date.weekday.wide_context).toContain(
             weekday
           );
         });
 
-        it('returns random value from date.weekday.abbr array for abbr option', () => {
+        it('should return random value from date.weekday.abbr array for abbr option', () => {
           const weekday = faker.date.weekday({ abbr: true });
           expect(faker.definitions.date.weekday.abbr).toContain(weekday);
         });
 
-        it('returns random value from date.weekday.abbr_context array for abbr and context option', () => {
+        it('should return random value from date.weekday.abbr_context array for abbr and context option', () => {
           const weekday = faker.date.weekday({ abbr: true, context: true });
           expect(faker.definitions.date.weekday.abbr_context).toContain(
             weekday
           );
         });
 
-        it('returns random value from date.weekday.wide array for context option when date.weekday.wide_context array is missing', () => {
+        it('should return random value from date.weekday.wide array for context option when date.weekday.wide_context array is missing', () => {
           const backup_wide_context =
             faker.definitions.date.weekday.wide_context;
           faker.definitions.date.weekday.wide_context = undefined;
@@ -394,7 +428,7 @@ describe('date', () => {
           faker.definitions.date.weekday.wide_context = backup_wide_context;
         });
 
-        it('returns random value from date.weekday.abbr array for abbr and context option when date.weekday.abbr_context array is missing', () => {
+        it('should return random value from date.weekday.abbr array for abbr and context option when date.weekday.abbr_context array is missing', () => {
           const backup_abbr_context =
             faker.definitions.date.weekday.abbr_context;
           faker.definitions.date.weekday.abbr_context = undefined;
