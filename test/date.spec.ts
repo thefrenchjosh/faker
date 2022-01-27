@@ -21,7 +21,18 @@ const seededRuns = [
         new Date('2021-03-15T19:30:57.091Z'),
         new Date('2021-07-29T19:19:12.731Z'),
       ],
-      betweens: {},
+      betweens: [
+        [
+          new Date('2021-03-08T11:09:46.211Z'),
+          new Date('2021-03-23T05:10:16.500Z'),
+          new Date('2021-04-06T23:10:46.500Z'),
+        ],
+        [
+          new Date('2021-03-08T11:09:45.500Z'),
+          new Date('2021-03-23T05:10:15.500Z'),
+          new Date('2021-04-06T23:10:45.500Z'),
+        ],
+      ],
       recent: {},
       soon: {},
       month: {},
@@ -47,7 +58,18 @@ const seededRuns = [
         new Date('2021-03-09T04:11:24.667Z'),
         new Date('2021-06-12T02:21:47.178Z'),
       ],
-      betweens: {},
+      betweens: [
+        [
+          new Date('2021-03-08T11:09:46.211Z'),
+          new Date('2021-03-23T05:10:16.500Z'),
+          new Date('2021-04-06T23:10:46.500Z'),
+        ],
+        [
+          new Date('2021-03-08T11:09:45.500Z'),
+          new Date('2021-03-23T05:10:15.500Z'),
+          new Date('2021-04-06T23:10:45.500Z'),
+        ],
+      ],
       recent: {},
       soon: {},
       month: {},
@@ -73,7 +95,18 @@ const seededRuns = [
         new Date('2021-04-17T11:58:13.327Z'),
         new Date('2022-03-21T16:37:15.905Z'),
       ],
-      betweens: {},
+      betweens: [
+        [
+          new Date('2021-03-08T11:09:46.211Z'),
+          new Date('2021-03-23T05:10:16.500Z'),
+          new Date('2021-04-06T23:10:46.500Z'),
+        ],
+        [
+          new Date('2021-03-08T11:09:45.500Z'),
+          new Date('2021-03-23T05:10:15.500Z'),
+          new Date('2021-04-06T23:10:45.500Z'),
+        ],
+      ],
       recent: {},
       soon: {},
       month: {},
@@ -199,8 +232,28 @@ describe('date', () => {
       });
 
       describe('betweens()', () => {
-        it('should ... betweens', () => {
+        it('should return deterministic value betweens given string dates', () => {
           faker.seed(seed);
+
+          // TODO @Shinigami92 2022-01-27: This function doesn't respect seeding
+          const actual = faker.date.betweens(
+            '2021-02-21T17:09:15.711Z',
+            '2021-04-21T17:11:17.711Z'
+          );
+
+          expect(actual).toEqual(expectations.betweens[0]);
+        });
+
+        it('should return deterministic value betweens given dates', () => {
+          faker.seed(seed);
+
+          // TODO @Shinigami92 2022-01-27: This function doesn't respect seeding
+          const actual = faker.date.betweens(
+            new Date('2021-02-21T17:09:15.711Z'),
+            new Date('2021-04-21T17:11:17.711Z')
+          );
+
+          expect(actual).toEqual(expectations.betweens[1]);
         });
       });
 
