@@ -33,7 +33,7 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: {},
+      recent: [new Date('2021-02-21T08:11:56.820Z')],
       soon: {},
       month: {},
       weekday: {},
@@ -70,7 +70,7 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: {},
+      recent: [new Date('2021-02-21T10:53:58.041Z')],
       soon: {},
       month: {},
       weekday: {},
@@ -107,7 +107,7 @@ const seededRuns = [
           new Date('2021-04-06T23:10:45.500Z'),
         ],
       ],
-      recent: {},
+      recent: [new Date('2021-02-20T18:54:13.498Z')],
       soon: {},
       month: {},
       weekday: {},
@@ -258,8 +258,15 @@ describe('date', () => {
       });
 
       describe('recent()', () => {
-        it('should ... recent', () => {
+        it('should return deterministic value recent to given refDate of type string', () => {
           faker.seed(seed);
+
+          const actual = faker.date.recent(
+            undefined,
+            '2021-02-21T17:11:17.711Z'
+          );
+
+          expect(actual).toEqual(expectations.recent[0]);
         });
       });
 
