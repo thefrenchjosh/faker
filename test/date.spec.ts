@@ -41,8 +41,18 @@ const seededRuns = [
         new Date('2021-03-13T23:15:38.042Z'),
         new Date('2021-03-13T23:15:37.891Z'),
       ],
-      month: {},
-      weekday: {},
+      month: {
+        default: 'May',
+        abbr: 'May',
+        context: 'May',
+        abbr_context: 'May',
+      },
+      weekday: {
+        default: 'Tuesday',
+        abbr: 'Tue',
+        context: 'Tuesday',
+        abbr_context: 'Tue',
+      },
     },
   },
   {
@@ -84,8 +94,18 @@ const seededRuns = [
         new Date('2021-03-13T20:33:36.821Z'),
         new Date('2021-03-13T20:33:36.670Z'),
       ],
-      month: {},
-      weekday: {},
+      month: {
+        default: 'April',
+        abbr: 'Apr',
+        context: 'April',
+        abbr_context: 'Apr',
+      },
+      weekday: {
+        default: 'Monday',
+        abbr: 'Mon',
+        context: 'Monday',
+        abbr_context: 'Mon',
+      },
     },
   },
   {
@@ -127,8 +147,18 @@ const seededRuns = [
         new Date('2021-03-14T12:33:21.364Z'),
         new Date('2021-03-14T12:33:21.213Z'),
       ],
-      month: {},
-      weekday: {},
+      month: {
+        default: 'December',
+        abbr: 'Dec',
+        context: 'December',
+        abbr_context: 'Dec',
+      },
+      weekday: {
+        default: 'Saturday',
+        abbr: 'Sat',
+        context: 'Saturday',
+        abbr_context: 'Sat',
+      },
     },
   },
 ];
@@ -321,14 +351,70 @@ describe('date', () => {
       });
 
       describe('month()', () => {
-        it('should ... month', () => {
+        it('should return deterministic value month by default', () => {
           faker.seed(seed);
+
+          const actual = faker.date.month();
+
+          expect(actual).toEqual(expectations.month.default);
+        });
+
+        it('should return deterministic value month with abbr true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.month({ abbr: true });
+
+          expect(actual).toEqual(expectations.month.abbr);
+        });
+
+        it('should return deterministic value month with context true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.month({ context: true });
+
+          expect(actual).toEqual(expectations.month.context);
+        });
+
+        it('should return deterministic value month with abbr and context true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.month({ abbr: true, context: true });
+
+          expect(actual).toEqual(expectations.month.abbr_context);
         });
       });
 
       describe('weekday()', () => {
-        it('should ... weekday', () => {
+        it('should return deterministic value weekday by default', () => {
           faker.seed(seed);
+
+          const actual = faker.date.weekday();
+
+          expect(actual).toEqual(expectations.weekday.default);
+        });
+
+        it('should return deterministic value weekday with abbr true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.weekday({ abbr: true });
+
+          expect(actual).toEqual(expectations.weekday.abbr);
+        });
+
+        it('should return deterministic value weekday with context true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.weekday({ context: true });
+
+          expect(actual).toEqual(expectations.weekday.context);
+        });
+
+        it('should return deterministic value weekday with abbr and context true', () => {
+          faker.seed(seed);
+
+          const actual = faker.date.weekday({ abbr: true, context: true });
+
+          expect(actual).toEqual(expectations.weekday.abbr_context);
         });
       });
     });
